@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart, User, LogOut } from "lucide-react";
 import { logoutUser } from "@/redux/slices/auth";
+import { RootState } from "@/redux/store";
 
 import { useScrollDirection } from "@/shared/hooks/useScrollDirection";
 import { ModeToggle } from "../../system/ModeToggle";
@@ -24,11 +25,13 @@ export default function Navbar() {
   const scrollDirection = useScrollDirection();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state: any) => state.auth?.user);
+  const user = useSelector((state: RootState) => state.auth?.user);
   const isAuthenticated = useSelector(
-    (state: any) => state.auth?.isAuthenticated,
+    (state: RootState) => state.auth?.isAuthenticated,
   );
-  const cartItems = useSelector((state: any) => state.cart?.totalItems || 0);
+  const cartItems = useSelector(
+    (state: RootState) => state.cart?.totalItems || 0,
+  );
 
   const routes = makeRoutingList();
 

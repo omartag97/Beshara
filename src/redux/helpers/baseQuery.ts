@@ -1,4 +1,3 @@
-
 import {
   fetchBaseQuery,
   FetchBaseQueryError,
@@ -8,7 +7,7 @@ import {
   FetchArgs,
   FetchBaseQueryMeta,
 } from "@reduxjs/toolkit/query";
-import { buildURLQueryParams, transformRequest } from "@/helpers/urls";
+import { buildURLQueryParams } from "@/helpers/urls";
 import { API_URL } from "@/config";
 import {
   METHODS_FAILURE_MESSAGES_MAP,
@@ -19,25 +18,37 @@ import {
 
 import { enqueueSnackbar } from "notistack";
 
-interface QueryResult {
+type CustomMeta = {
+  request: { method: string };
+  response: { status: number };
+};
+
+type CustomQueryResult = {
   data?: unknown;
   error?: FetchBaseQueryError;
-  meta?: FetchBaseQueryMeta;
-}
+  meta?: CustomMeta;
+};
 
 interface CustomResponse {
   data: unknown;
-  meta: {
-    request: { method: string };
-    response: { status: number };
-  };
+  meta: CustomMeta;
 }
 
 interface CustomFetchArgs extends FetchArgs {
   responseHandler?: () => Promise<CustomResponse>;
 }
 
-export const systemMessages = (result: QueryResult) => {
+const convertToCustomMeta = (
+  meta?: FetchBaseQueryMeta,
+): CustomMeta | undefined => {
+  if (!meta?.request || !meta?.response) return undefined;
+  return {
+    request: { method: meta.request.method },
+    response: { status: meta.response.status },
+  };
+};
+
+export const systemMessages = (result: CustomQueryResult) => {
   if (!result.meta?.request || !result.meta?.response) return;
 
   const method = result.meta.request.method as HttpMethod;
@@ -60,7 +71,6 @@ export const systemMessages = (result: QueryResult) => {
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
-
   paramsSerializer: buildURLQueryParams,
 });
 
@@ -71,34 +81,44 @@ export const customBaseQuery: BaseQueryFn<
   object,
   FetchBaseQueryMeta
 > = async (args, api, extraOptions) => {
-  const modifiedArgs = transformRequest(args);
-
-  if (typeof modifiedArgs === "object" && "responseHandler" in modifiedArgs) {
+  if (typeof args === "object" && "responseHandler" in args) {
     try {
-      const response = await modifiedArgs.responseHandler!();
-      const result = {
+      const response = await args.responseHandler!();
+      const result: CustomQueryResult = {
         data: response.data,
         meta: response.meta,
       };
       systemMessages(result);
-      return result;
+      return {
+        data: response.data,
+        meta: undefined,
+        error: undefined,
+      };
     } catch (error) {
-      const result = {
+      const result: CustomQueryResult = {
         error: {
           status: 500,
           data: error instanceof Error ? error.message : "Unknown error",
         },
         meta: {
-          request: { method: modifiedArgs.method || "POST" },
+          request: { method: args.method || "POST" },
           response: { status: 500 },
         },
       };
       systemMessages(result);
-      return result;
+      return {
+        error: result.error,
+        data: undefined,
+        meta: undefined,
+      };
     }
   }
 
-  const result = await baseQuery(modifiedArgs, api, extraOptions);
-  systemMessages(result);
+  const result = await baseQuery(args, api, extraOptions);
+  const customResult: CustomQueryResult = {
+    ...result,
+    meta: convertToCustomMeta(result.meta),
+  };
+  systemMessages(customResult);
   return result;
 };
