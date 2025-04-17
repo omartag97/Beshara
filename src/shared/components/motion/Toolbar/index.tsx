@@ -24,7 +24,7 @@ import {
   SelectGroup,
   SelectItem,
   SelectTrigger,
-} from "../../ui/select";
+} from "../../ui/Select";
 
 import { useGetCategoriesQuery } from "@/redux/services/products";
 import { parseAsString, useQueryState } from "nuqs";

@@ -15,7 +15,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@/shared/components/ui/form";
+} from "@/shared/components/ui/Form";
 import {
   productQuantitySchema,
   type ProductQuantityFormValues,

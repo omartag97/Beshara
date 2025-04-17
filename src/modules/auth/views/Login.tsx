@@ -14,7 +14,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shared/components/ui/form";
+} from "@/shared/components/ui/Form";
 import { Input } from "@/shared/components/ui/Input";
 import {
   loginSchema,

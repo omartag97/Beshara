@@ -12,7 +12,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shared/components/ui/select";
+} from "@/shared/components/ui/Select";
 import { parseAsString, useQueryState } from "nuqs";
 import ProductList from "../components/ProductList";
 
