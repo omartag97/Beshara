@@ -36,7 +36,7 @@ export default function Cart() {
   const consolidatedItems = useMemo(() => {
     const itemMap = new Map();
 
-    items.forEach((item) => {
+    items.forEach((item: CartItemType) => {
       const existingItem = itemMap.get(item.id);
 
       if (existingItem) {

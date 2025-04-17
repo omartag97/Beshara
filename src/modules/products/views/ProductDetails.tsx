@@ -8,7 +8,7 @@ import Typography from "@/shared/components/ui/Typography";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { useSnackbar } from "notistack";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -28,12 +28,12 @@ export default function ProductDetails() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  const form = useForm<ProductQuantityFormValues>({
+  const form = useForm({
     resolver: zodResolver(productQuantitySchema),
     defaultValues: {
       quantity: 1,
     },
-  });
+  } as const);
 
   const {
     data: product,
@@ -41,7 +41,7 @@ export default function ProductDetails() {
     error,
   } = useGetProductQuery(id ? parseInt(id, 10) : 0, { skip: !id });
 
-  const onSubmit = (values: ProductQuantityFormValues) => {
+  const onSubmit: SubmitHandler<ProductQuantityFormValues> = (values) => {
     if (product) {
       for (let i = 0; i < values.quantity; i++) {
         dispatch(addToCart(product));
