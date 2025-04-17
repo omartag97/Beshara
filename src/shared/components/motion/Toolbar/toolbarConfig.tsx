@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
-import { HomeIcon } from "lucide-react";
+import { HomeIcon, Wifi } from "lucide-react";
 import { SimulationContent } from "./SimulationContent";
+import { MiniNavabr } from "./MiniNavabr";
 
 interface ToolbarItem {
   id: number;
@@ -18,6 +19,15 @@ export const TOOLBAR_ITEMS: ToolbarItem[] = [
       className: "h-5 w-5 text-accent-foreground",
     }),
     tooltip: "Pages",
+    Component: MiniNavabr,
+  },
+  {
+    id: 2,
+    label: "User",
+    title: React.createElement(Wifi, {
+      className: "h-5 w-5 text-accent-foreground",
+    }),
+    tooltip: "Simulate mutation requests",
     Component: SimulationContent,
   },
 ];

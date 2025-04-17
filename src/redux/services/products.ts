@@ -40,6 +40,34 @@ export const productsAPI = createApi({
       query: (id: number) => `/products/${id}`,
       providesTags: (_result, _error, id) => [{ type: "Product", id }],
     }),
+
+    simulateSuccess: build.mutation<{ message: string }, void>({
+      query: () => ({
+        url: "/simulate-success",
+        method: "POST",
+        responseHandler: async () => {
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+          return {
+            data: { message: "Operation completed successfully" },
+            meta: {
+              request: { method: "POST" },
+              response: { status: 200 },
+            },
+          };
+        },
+      }),
+    }),
+
+    simulateFailure: build.mutation<void, void>({
+      query: () => ({
+        url: "/simulate-failure",
+        method: "POST",
+        responseHandler: async () => {
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+          throw new Error("Simulated server error");
+        },
+      }),
+    }),
   }),
 });
 
@@ -48,4 +76,6 @@ export const {
   useGetProductsByCategoryQuery,
   useGetAllProductsQuery,
   useGetProductQuery,
+  useSimulateSuccessMutation,
+  useSimulateFailureMutation,
 } = productsAPI;
