@@ -1,4 +1,3 @@
-import { API_KEY } from "@/config";
 import { FetchArgs } from "@reduxjs/toolkit/query";
 
 export const buildURLQueryParams = (
@@ -19,7 +18,7 @@ export const buildURLQueryParams = (
 
 const appendAPIKey = (url: string): string => {
   const separator = url.includes("?") ? "&" : "?";
-  return `${url}${separator}apikey=${API_KEY}`;
+  return `${url}${separator}`;
 };
 
 export const transformRequest = (
