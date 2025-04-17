@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { loginUser, clearError } from "@/redux/slices/auth";
-import { Button } from "@/shared/components/ui/button";
+import { Button } from "@/shared/components/ui/Button";
 import Typography from "@/shared/components/ui/Typography";
 import { RootState } from "@/redux/store";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -53,7 +53,6 @@ export default function Login() {
       dispatch(clearError());
 
       dispatch(loginUser(values));
-
     } catch (error) {
       console.error("Login error:", error);
     }

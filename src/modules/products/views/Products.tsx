@@ -1,9 +1,6 @@
 import { useEffect, useMemo } from "react";
 
-import {
-  useGetCategoriesQuery,
-  useGetProductsByCategoryQuery,
-} from "@/redux/services/products";
+import { useGetCategoriesQuery } from "@/redux/services/products";
 import Toolbar from "@/shared/components/motion/Toolbar";
 import Typography from "@/shared/components/ui/Typography";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
@@ -17,7 +14,7 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select";
 import { parseAsString, useQueryState } from "nuqs";
-import ProductAccordion from "../components/ProductAccordion";
+import ProductList from "../components/ProductList";
 
 export default function Products() {
   const [activeCategory, setActiveCategory] = useQueryState(
@@ -37,11 +34,6 @@ export default function Products() {
     [categories],
   );
 
-  const { data: activeProducts = [], isLoading: isProductsLoading } =
-    useGetProductsByCategoryQuery(activeCategory || "", {
-      skip: !activeCategory,
-    });
-
   useEffect(() => {
     if (categories.length > 0 && !activeCategory) {
       setActiveCategory("all");
@@ -56,8 +48,8 @@ export default function Products() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-2 flex items-center justify-between">
+    <div className="container mx-auto px-8 md:px-12">
+      <div className="mb-4 flex items-center justify-between">
         <Typography variant="h2" className="text-primary font-bold">
           Our Products
         </Typography>
@@ -110,27 +102,7 @@ export default function Products() {
 
           {activeCategory && (
             <div className="mb-6">
-              {isProductsLoading ? (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div
-                      key={i}
-                      className="h-80 rounded-lg border p-4 shadow-sm"
-                    >
-                      <Skeleton className="mb-2 h-40 w-full" />
-                      <Skeleton className="mb-2 h-6 w-3/4" />
-                      <Skeleton className="mb-2 h-4 w-1/2" />
-                      <Skeleton className="h-8 w-full" />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <ProductAccordion
-                  categories={categories}
-                  products={activeProducts}
-                  activeCategory={activeCategory}
-                />
-              )}
+              <ProductList />
             </div>
           )}
         </>

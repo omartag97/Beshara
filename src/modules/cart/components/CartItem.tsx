@@ -2,7 +2,7 @@ import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { CartItem as CartItemType } from "@/interface/product.interface";
-import { Button } from "@/shared/components/ui/button";
+import { Button } from "@/shared/components/ui/Button";
 import Typography from "@/shared/components/ui/Typography";
 import { Trash2, GripVertical } from "lucide-react";
 import { useDispatch } from "react-redux";

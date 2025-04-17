@@ -1,4 +1,4 @@
-import { Button } from "@/shared/components/ui/button";
+import { Button } from "@/shared/components/ui/Button";
 import Typography from "@/shared/components/ui/Typography";
 import { Send, MapPin, Phone, Mail } from "lucide-react";
 import { useSnackbar } from "notistack";
@@ -34,7 +34,7 @@ export default function Contact() {
 
   const { isSubmitting } = form.formState;
 
-  const onSubmit = async (values: ContactFormValues) => {
+  const onSubmit = async () => {
     setTimeout(() => {
       enqueueSnackbar(
         "Message sent successfully! We will get back to you soon.",

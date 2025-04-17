@@ -3,7 +3,7 @@ import { useGetProductQuery } from "@/redux/services/products";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/slices/cart";
 import { ArrowLeft, ShoppingCart, Star, Tag } from "lucide-react";
-import { Button } from "@/shared/components/ui/button";
+import { Button } from "@/shared/components/ui/Button";
 import Typography from "@/shared/components/ui/Typography";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { useSnackbar } from "notistack";
@@ -16,11 +16,11 @@ import {
   FormItem,
   FormLabel,
 } from "@/shared/components/ui/form";
-import { Input } from "@/shared/components/ui/Input";
 import {
   productQuantitySchema,
   type ProductQuantityFormValues,
 } from "@/shared/validation/FormSchema";
+import { Input } from "@/shared/components/ui/Input";
 
 export default function ProductDetails() {
   const { id } = useParams<{ id: string }>();

@@ -28,7 +28,7 @@ interface ProductCardProps {
 }
 
 const ProductCardComponent = forwardRef<HTMLDivElement, ProductCardProps>(
-  ({ product, onRegister }, ref) => {
+  ({ product }) => {
     const { id, title, price, category, image, rating, description } = product;
     const navigate = useNavigate();
     const dispatch = useDispatch();

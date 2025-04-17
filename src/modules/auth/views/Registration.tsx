@@ -40,6 +40,7 @@ export default function Registration() {
 
   const onSubmit = async (values: RegistrationFormValues) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...userData } = values;
       dispatch(registerUser(userData as User));
 
